@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'transportation_screen.dart';
 import 'food.dart';
 import 'water.dart';
 import 'electricity.dart';
+import 'history_Page.dart';
+import 'file_manager.dart';
 
 class CarbonCalculatorPage extends StatefulWidget {
   @override
@@ -24,6 +30,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
           setState(() {
             transportationValue = value;
           });
+          // _calculateTotalEmissions();
         });
       },
     );
@@ -38,6 +45,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
           setState(() {
             foodValue = value;
           });
+          // _calculateTotalEmissions();
         });
       },
     );
@@ -52,6 +60,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
           setState(() {
             electricityValue = value;
           });
+          // _calculateTotalEmissions();
         });
       },
     );
@@ -66,26 +75,39 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
           setState(() {
             waterValue = value;
           });
+          // _calculateTotalEmissions();
         });
       },
     );
   }
 
+  void _calculateTotalEmissions() async {
+    double totalEmissions = transportationValue + foodValue + electricityValue + waterValue;
+    String indexDateandTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+    // String indexDateandTime = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    String dateAndTime = DateFormat.yMd().add_jm().format(DateTime.now());
+    final entry = HistoryData(
+      totalCarbon: totalEmissions,
+      time: dateAndTime,
+    );
+    Map<String, dynamic> existingEntries = {};
+    final Future<String> tmp = FileManager().readJsonFile();
+    String jsonData = await tmp;
+    existingEntries = json.decode(jsonData);
+    existingEntries[indexDateandTime] = entry.toJson();
+    FileManager().writeJsonFile(existingEntries);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Carbon Calculator'),
-      //   backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      // ),
       appBar: AppBar(
         title: Text('Carbon Calculator'),
-        // backgroundColor: const Color(0xFF6CCEFF), // Background color
-        centerTitle: true, // Center the title
+        centerTitle: true,
         titleTextStyle: TextStyle(
-          color: Color.fromARGB(255, 4, 27, 6), // Title text color
-          fontSize: 24, // Title font size
-          fontWeight: FontWeight.bold, // Title font weight
+          color: Color.fromARGB(255, 4, 27, 6),
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
         ),
       ),
       body: SingleChildScrollView(
@@ -99,7 +121,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
                   electricityValue +
                   waterValue,
               color: Color.fromARGB(255, 168, 68, 9),
-              isTotal: true, // Add a parameter to identify the total card
+              isTotal: true,
             ),
             _buildCard(
               title: 'Transportation',
@@ -136,6 +158,28 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
                 _showWaterCalculator(context);
               },
               color: Color.fromARGB(255, 56, 90, 2),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to the history page
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => HistoryPage(),
+                ));
+              },
+              child: Text('View History'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _calculateTotalEmissions();
+              },
+              child: Text('Save Data'),
             ),
           ],
         ),
@@ -200,7 +244,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Colors.white, color],
+                colors: [const Color.fromARGB(255, 255, 255, 255), color],
               ),
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
@@ -222,7 +266,6 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
                 title: Text(
                   title,
                   style: TextStyle(
-                    fontFamily: AutofillHints.birthdayDay,
                     color: Color.fromARGB(255, 42, 80, 6),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -246,5 +289,28 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
               ),
             ),
           );
+  }
+}
+
+class HistoryData {
+  final double totalCarbon;
+  final String time;
+  HistoryData({
+    required this.totalCarbon,
+    required this.time,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'totalCarbon': totalCarbon,
+      'time': time,
+    };
+  }
+
+  factory HistoryData.fromJson(Map<String, dynamic> json) {
+    return HistoryData(
+      totalCarbon: json['totalCarbon'],
+      time: json['time'],
+    );
   }
 }

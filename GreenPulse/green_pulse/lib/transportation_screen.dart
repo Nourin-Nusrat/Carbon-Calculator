@@ -123,8 +123,8 @@ class _TransportationScreenState extends State<TransportationScreen> {
               children: [
                 Row(
                   children: [
-                    Text('Enter Distance (miles):'),
-                    SizedBox(width: 16),
+                    Text('Distance (miles):'),
+                    SizedBox(width: 1),
                     Expanded(
                       child: TextField(
                         keyboardType: TextInputType.number,
@@ -134,32 +134,21 @@ class _TransportationScreenState extends State<TransportationScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(width: 16), // Add some spacing
+                    ElevatedButton(
+                      onPressed: () {
+                        double distance = double.tryParse(distanceController.text) ?? 0;
+                        double result = distance * 0.01;
+                        widget.updateValue(result);
+                        setState(() {
+                          calculatedResult = result;
+                        });
+                      },
+                      child: Text('Calculate'),
+                    ),
                   ],
                 ),
-                SizedBox(height: 16),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     double distance = double.parse(distanceController.text);
-                //     double result = distance * 0.005;
-                //     widget.updateValue(result);
-                //     Navigator.of(context).pop();
-                //   },
-                //   child: Text('Calculate'),
-
-                // ),
-                ElevatedButton(
-                  onPressed: () {
-                    double distance =
-                        double.tryParse(distanceController.text) ?? 0;
-                    double result = distance * 0.005;
-                    widget.updateValue(result);
-                    setState(() {
-                      calculatedResult = result;
-                    });
-                  },
-                  child: Text('Calculate'),
-                ),
-                SizedBox(height: 16),
+                SizedBox(height: 1),
                 if (calculatedResult != -1.0)
                   Text('Result: $calculatedResult!'),
               ],
@@ -170,7 +159,7 @@ class _TransportationScreenState extends State<TransportationScreen> {
               children: [
                 Row(
                   children: [
-                    Text('Enter Distance (miles):'),
+                    Text('Distance (miles):'),
                     SizedBox(width: 16),
                     Expanded(
                       child: TextField(
@@ -181,33 +170,33 @@ class _TransportationScreenState extends State<TransportationScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(width: 1), // Add some spacing
+                    ElevatedButton(
+                      onPressed: () {
+                        double distance = double.tryParse(distanceController.text) ?? 0;
+                        double result = distance * 0.01;
+                        widget.updateValue(result);
+                        setState(() {
+                          calculatedResult = result;
+                        });
+                      },
+                      child: Text('Calculate'),
+                    ),
                   ],
                 ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    double distance =
-                        double.tryParse(distanceController.text) ?? 0;
-                    double result = distance * 0.01;
-                    widget.updateValue(result);
-                    setState(() {
-                      calculatedResult = result;
-                    });
-                  },
-                  child: Text('Calculate'),
-                ),
-                SizedBox(height: 16),
+                SizedBox(height: 1),
                 if (calculatedResult != -1.0)
                   Text('Result: $calculatedResult!'),
               ],
             ),
+
           if (mode == 'Bus')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    Text('Enter Distance (miles):'),
+                    Text('Distance (miles):'),
                     SizedBox(width: 16),
                     Expanded(
                       child: TextField(
@@ -218,22 +207,21 @@ class _TransportationScreenState extends State<TransportationScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(width: 1), // Add some spacing
+                    ElevatedButton(
+                      onPressed: () {
+                        double distance = double.tryParse(distanceController.text) ?? 0;
+                        double result = distance * 0.01;
+                        widget.updateValue(result);
+                        setState(() {
+                          calculatedResult = result;
+                        });
+                      },
+                      child: Text('Calculate'),
+                    ),
                   ],
                 ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    double distance =
-                        double.tryParse(distanceController.text) ?? 0;
-                    double result = distance * 0.05;
-                    widget.updateValue(result);
-                    setState(() {
-                      calculatedResult = result;
-                    });
-                  },
-                  child: Text('Calculate'),
-                ),
-                SizedBox(height: 16),
+                SizedBox(height: 1),
                 if (calculatedResult != -1.0)
                   Text('Result: $calculatedResult!'),
               ],

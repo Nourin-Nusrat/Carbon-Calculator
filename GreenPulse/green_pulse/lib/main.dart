@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'Faq.dart';
 import 'carbon_calculator.dart';
 import 'Eco_Friendly_Tips_Page.dart';
+import 'challenges.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/eco_tips': (context) => EcoFriendlyTipsPage(),
         '/faq': (context) => FAQPage(), // Add the route for the "Eco-Friendly Tips" page
         '/carbon_calculator': (context) => CarbonCalculatorPage(),
+        '/challenges': (context) => ChallengesPage(),
       },
     );
   }
@@ -43,8 +47,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    MyHomePageContent(), // Replace with your home page content
-    EcoFriendlyTipsPage(), // Replace with your eco-friendly tips page content
+    MyHomePageContent(),
+    ChallengesPage(), // Replace with your home page content
+    // EcoFriendlyTipsPage(), // Replace with your eco-friendly tips page content
     CarbonCalculatorPage(), // Add the Carbon Calculator page content
   ];
 
@@ -62,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      backgroundColor: Color.fromARGB(255, 236, 243, 234),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -116,9 +121,13 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.lightbulb),
-            label: 'Eco Tips',
+            icon: Icon(Icons.star),
+            label: 'Challenges',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.lightbulb),
+          //   label: 'Eco Tips',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calculate), // Use an appropriate icon for the Carbon Calculator
             label: 'Calculator', // You can customize the label
