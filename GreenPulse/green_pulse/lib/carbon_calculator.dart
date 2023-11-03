@@ -85,7 +85,8 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
     double totalEmissions = transportationValue + foodValue + electricityValue + waterValue;
     String indexDateandTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
     // String indexDateandTime = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    String dateAndTime = DateFormat.yMd().add_jm().format(DateTime.now());
+    // String dateAndTime = DateFormat.yMd().add_jm().format(DateTime.now());
+    String dateAndTime = DateFormat('MM-dd').format(DateTime.now());
     final entry = HistoryData(
       totalCarbon: totalEmissions,
       time: dateAndTime,

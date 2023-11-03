@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 // import 'dart:io';
 import 'file_manager.dart';
-
-
+import 'package:fl_chart/fl_chart.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -22,14 +21,15 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   Future<void> loadHistoryData() async {
-      final Future<String> tmp = FileManager().readJsonFile();
-      String jsonData = await tmp;
-      final jsonMap = json.decode(jsonData) as Map<String, dynamic>;
-      historyData = jsonMap.entries
-          .map((entry) => HistoryData.fromJson(entry.value as Map<String, dynamic>))
-          .toList();
+    final Future<String> tmp = FileManager().readJsonFile();
+    String jsonData = await tmp;
+    final jsonMap = json.decode(jsonData) as Map<String, dynamic>;
+    historyData = jsonMap.entries
+        .map((entry) =>
+            HistoryData.fromJson(entry.value as Map<String, dynamic>))
+        .toList();
 
-      setState(() {});
+    setState(() {});
   }
 
   Future<void> deleteEntry(int index) async {
@@ -60,19 +60,74 @@ class _HistoryPageState extends State<HistoryPage> {
         title: const Text('History'),
         backgroundColor: Colors.grey[600],
       ),
-      body: ListView.builder(
+      body: Column(
+        children: [
+          Expanded(
+            child: _buildBarGraph(historyData), // Bar graph section
+          ),
+          _buildListView(), // List view section
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBarGraph(List<HistoryData> historyData) {
+    List<BarChartGroupData> barChartData =
+        historyData.asMap().entries.map((entry) {
+      final index = entry.key;
+      final data = entry.value;
+      return BarChartGroupData(
+        x: index,
+        barRods: [
+          BarChartRodData(
+            y: data.totalCarbon, // TotalCarbon on the y-axis
+            width: 20, // Width of the bars
+            borderRadius: BorderRadius.circular(16),
+            // color: Colors.blue, // Bar color
+          ),
+        ],
+      );
+    }).toList();
+
+    return AspectRatio(
+      aspectRatio: 20, // Adjust this for the aspect ratio you desire
+      child: BarChart(
+        BarChartData(
+          barGroups: barChartData,
+          titlesData: FlTitlesData(
+            leftTitles:
+                SideTitles(showTitles: true), // Customize left axis titles
+            bottomTitles: SideTitles(
+              showTitles: true,
+              getTitles: (value) {
+                final index = value.toInt();
+                if (index >= 0 && index < historyData.length) {
+                  final date = historyData[index]
+                      .time; // Assuming time is in a readable format
+                  return date; // Format date as needed
+                }
+                return '';
+              },
+            ),
+          ),
+          borderData: FlBorderData(show: true),
+          gridData: FlGridData(show: true),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildListView() {
+    return Expanded(
+      child: ListView.builder(
         itemCount: historyData.length,
         itemBuilder: (context, index) {
           final entry = historyData[historyData.length - 1 - index];
           return Card(
-            // set color for each card to ash
-            color: Colors.grey[200],
-            elevation: 3,
+            color: Colors.blue[50],
+            elevation: 5,
             margin: const EdgeInsets.all(8),
             child: ListTile(
-
-              // title: Text('Total Footprint: ${entry.totalFootprint.toString()}'),
-              // make title size 20 and bold
               title: Text(
                 'Total Footprint (kgCO2e): ${entry.totalCarbon.toStringAsFixed(2)} ',
                 style: const TextStyle(

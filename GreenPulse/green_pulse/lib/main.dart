@@ -3,6 +3,7 @@ import 'Faq.dart';
 import 'carbon_calculator.dart';
 import 'Eco_Friendly_Tips_Page.dart';
 import 'challenges.dart';
+// import 'news_feed.dart';
 
 
 
@@ -154,6 +155,21 @@ class MyHomePageContent extends StatelessWidget {
     );
   }
 }
+// class MyHomePageContent extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Text('Home Page Content'),
+//           SizedBox(height: 20),
+//           NewsFeed(), // Call the NewsFeed widget here
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 // class EcoFriendlyTipsPage extends StatelessWidget {
 //   @override
