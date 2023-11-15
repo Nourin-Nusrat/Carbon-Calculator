@@ -3,9 +3,10 @@ import 'Faq.dart';
 import 'carbon_calculator.dart';
 import 'Eco_Friendly_Tips_Page.dart';
 import 'challenges.dart';
-// import 'news_feed.dart';
-
-
+import 'news_feed.dart';
+import 'weather_model.dart'; 
+import 'repo.dart';
+// import 'MyHomePageContent.dart';// Import the news feed file
 
 void main() {
   runApp(const MyApp());
@@ -19,16 +20,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 46, 95, 18)),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 46, 95, 18)),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(title: 'Green Pulse'),
       routes: {
         '/eco_tips': (context) => EcoFriendlyTipsPage(),
-        '/faq': (context) => FAQPage(), // Add the route for the "Eco-Friendly Tips" page
+        '/faq': (context) => FAQPage(),
         '/carbon_calculator': (context) => CarbonCalculatorPage(),
         '/challenges': (context) => ChallengesPage(),
+        '/news_feed': (context) => NewsFeedPage(), 
+        // '/Home' : (context) => MyHomePageContent(),// Add the route for the News Feed page
       },
     );
   }
@@ -43,15 +47,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
     MyHomePageContent(),
-    ChallengesPage(), // Replace with your home page content
-    // EcoFriendlyTipsPage(), // Replace with your eco-friendly tips page content
-    CarbonCalculatorPage(), // Add the Carbon Calculator page content
+    ChallengesPage(),
+    CarbonCalculatorPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -62,11 +63,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: [
+          // Add an icon button to navigate to the News Feed page
+          IconButton(
+            icon: Icon(Icons.article),
+            onPressed: () {
+              Navigator.pushNamed(context, '/news_feed');
+            },
+          ),
+        ],
       ),
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       drawer: Drawer(
@@ -91,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.help), // You can use a different icon for FAQ
+              leading: Icon(Icons.help),
               title: Text('FAQ'),
               onTap: () {
                 Navigator.pushNamed(context, '/faq');
@@ -114,7 +123,20 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: _pages[_selectedIndex],
+      // body: _pages[_selectedIndex],
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/green.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        
+        child: _pages[_selectedIndex],
+        // child: _pages[_selectedIndex],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -125,57 +147,24 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.star),
             label: 'Challenges',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.lightbulb),
-          //   label: 'Eco Tips',
-          // ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calculate), // Use an appropriate icon for the Carbon Calculator
-            label: 'Calculator', // You can customize the label
+            icon: Icon(Icons.calculate),
+            label: 'Calculator',
           ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
-
-      // floatingActionButton: FloatingActionButton(
-      //   // onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ),
     );
   }
 }
+
 
 class MyHomePageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Home Page Content'),
+    return SingleChildScrollView(
+      
     );
   }
 }
-// class MyHomePageContent extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Text('Home Page Content'),
-//           SizedBox(height: 20),
-//           NewsFeed(), // Call the NewsFeed widget here
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class EcoFriendlyTipsPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Text('Eco-Friendly Tips Page Content'),
-//     );
-//   }
-// }

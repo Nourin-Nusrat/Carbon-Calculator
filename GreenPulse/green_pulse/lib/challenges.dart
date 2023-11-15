@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChallengesPage extends StatefulWidget {
   @override
@@ -18,6 +19,40 @@ class _ChallengesPageState extends State<ChallengesPage> {
 
   // Initialize the score.
   double score = 0.0;
+
+  // Initialize the last update date.
+  String lastUpdate = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadScore();
+  }
+
+  // Load the score and last update date from SharedPreferences.
+  Future<void> _loadScore() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    double savedScore = prefs.getDouble('score') ?? 0.0;
+    String savedLastUpdate = prefs.getString('lastUpdate') ?? '';
+    setState(() {
+      score = savedScore;
+      lastUpdate = savedLastUpdate;
+    });
+  }
+
+  // Save the score and last update date to SharedPreferences.
+  Future<void> _saveScore(double updatedScore) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('score', updatedScore);
+
+    String today = DateTime.now().toLocal().toString().split(' ')[0];
+    await prefs.setString('lastUpdate', today);
+
+    setState(() {
+      score = updatedScore;
+      lastUpdate = today;
+    });
+  }
 
   Widget _buildChallengeCard(String challenge, String imagePath) {
     bool isCompleted = challengeStatus[challenge] ?? false;
@@ -60,13 +95,6 @@ class _ChallengesPageState extends State<ChallengesPage> {
     return (completedChallenges / 6) * 100;
   }
 
-  // Update the score based on the daily percentage.
-  void updateScore() {
-    double dailyPercentage = calculatePercentage();
-    // Add the daily percentage to the score.
-    score += dailyPercentage;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,8 +111,8 @@ class _ChallengesPageState extends State<ChallengesPage> {
                 'Score: ${score.toStringAsFixed(2)}',
                 style: TextStyle(fontSize: 18),
               ),
-              SizedBox(height: 16.0), // Add some spacing
-              Text("Try to save planet planting or watering tree."),
+              SizedBox(height: 16.0),
+              Text("Try to save the planet by planting or watering trees."),
               SizedBox(height: 8.0),
               _buildChallengeCard('Plant a Tree', 'tree.png'),
               SizedBox(height: 8.0),
@@ -104,29 +132,49 @@ class _ChallengesPageState extends State<ChallengesPage> {
               _buildChallengeCard('Walk or Bike', 'walk.png'),
               SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: () {
-                  double percentage = calculatePercentage();
-                  // Update the score.
-                  setState(() {
-                    score += percentage;
-                  });
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text('Completion Percentage'),
-                        content: Text('You have completed ${percentage.toStringAsFixed(2)}% of the challenges.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('Close'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                onPressed: () async {
+                  if (lastUpdate != DateTime.now().toLocal().toString().split(' ')[0]) {
+                    // If it's a new day, update the score and the last update date.
+                    double dailyPercentage = calculatePercentage();
+                    double updatedScore = score + dailyPercentage;
+                    await _saveScore(updatedScore);
+
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Daily Update'),
+                          content: Text('You have completed ${dailyPercentage.toStringAsFixed(2)}% of the challenges today.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Daily Update'),
+                          content: Text('You have already updated your score today.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
                 child: Text('Submit'),
               ),
