@@ -221,16 +221,17 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Total Carbon ',
+                    'Total Carbon(kgCO2e) ',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: 16),
                   Text(
-                    '$value',
+                    // '$value',
+                    ' ${value.toStringAsFixed(2)}',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -280,7 +281,8 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
                   ),
                 ),
                 trailing: Text(
-                  ' $value',
+                  // ' $value',
+                  ' ${value.toStringAsFixed(2)}',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 22,

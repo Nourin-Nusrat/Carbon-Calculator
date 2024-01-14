@@ -1,11 +1,16 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'Faq.dart';
 import 'carbon_calculator.dart';
 import 'Eco_Friendly_Tips_Page.dart';
 import 'challenges.dart';
 import 'news_feed.dart';
-import 'weather_model.dart'; 
+import 'weather_model.dart';
 import 'repo.dart';
+import 'feedback.dart';
 // import 'MyHomePageContent.dart';// Import the news feed file
 
 void main() {
@@ -14,11 +19,12 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  static late String defaultCity = 'Rajshahi';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'GREEN PULSE',
       theme: ThemeData(
         colorScheme:
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 46, 95, 18)),
@@ -27,12 +33,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(title: 'Green Pulse'),
       routes: {
-        '/eco_tips': (context) => EcoFriendlyTipsPage(),
+        '/eco_tips': (context) => TermsOfUsePage(),
         '/faq': (context) => FAQPage(),
         '/carbon_calculator': (context) => CarbonCalculatorPage(),
         '/challenges': (context) => ChallengesPage(),
-        '/news_feed': (context) => NewsFeedPage(), 
-        // '/Home' : (context) => MyHomePageContent(),// Add the route for the News Feed page
+        '/news_feed': (context) => NewsFeedPage(),
+        '/feedback' : (context) => feedback(),// Add the route for the News Feed page
       },
     );
   }
@@ -87,13 +93,13 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 60,
               alignment: Alignment.center,
               child: Text(
-                'Menu',
+                'Green Pulse',
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
             ListTile(
-              leading: Icon(Icons.lightbulb),
-              title: Text('Eco-Friendly Tips'),
+              leading: Icon(Icons.security),
+              title: Text('Terms of Use'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/eco_tips');
@@ -107,19 +113,20 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.star),
-              title: Text('New Item 1'),
+              leading: Icon(Icons.chat_bubble),
+              title: Text('Feedback & Support'),
               onTap: () {
+                Navigator.pushNamed(context, '/feedback');
                 // Handle new item 1 navigation
               },
             ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('New Item 2'),
-              onTap: () {
-                // Handle new item 2 navigation
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.settings),
+            //   title: Text('New Item 2'),
+            //   onTap: () {
+            //     // Handle new item 2 navigation
+            //   },
+            // ),
           ],
         ),
       ),
@@ -133,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
             fit: BoxFit.cover,
           ),
         ),
-        
+
         child: _pages[_selectedIndex],
         // child: _pages[_selectedIndex],
       ),
@@ -159,12 +166,173 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+// class MyHomePageContent extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return SingleChildScrollView(
 
-class MyHomePageContent extends StatelessWidget {
+//     );
+//   }
+// }
+
+// Import your actual weather model file
+
+// Import your actual weather model file
+
+class MyHomePageContent extends StatefulWidget {
+  @override
+  _MyHomePageContentState createState() => _MyHomePageContentState();
+}
+
+class _MyHomePageContentState extends State<MyHomePageContent> {
+  TextEditingController _searchController = TextEditingController();
+  WeatherModel? weatherModel;
+  // late String defaultCity = 'Rajshahi'; // Default city set to Rajshahi
+
+  late List<String> ecoTips;
+  late String currentTip = "null";
+  late int randomIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchTemperature(MyApp.defaultCity);
+    loadEcoTips();
+  }
+
+  Future<void> loadEcoTips() async {
+    final String tipsJsonString =
+        await rootBundle.loadString('assets/tips.json');
+    final List<dynamic> tipsList = json.decode(tipsJsonString);
+    ecoTips = tipsList.cast<String>();
+    showRandomTip();
+  }
+
+  void showRandomTip() {
+    final Random random = Random();
+    randomIndex = random.nextInt(ecoTips.length);
+    setState(() {
+      currentTip = ecoTips[randomIndex];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Search city...',
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.green),
+                ),
+              ),
+              onSubmitted: (value) {
+                _searchTemperature(value);
+              },
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Trigger temperature search when the button is pressed
+              _searchTemperature(_searchController.text);
+            },
+            child: Text('Search'),
+          ),
+          if (weatherModel != null)
+            Column(
+              children: [
+                SizedBox(height: 30.0),
+                Text(
+                  '${weatherModel!.main?.temp}°C',
+                  style: TextStyle(
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 5.0),
+                Text(
+                  '${weatherModel!.name}',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                  ),
+                ),
+                SizedBox(height: 5.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Feels like ${weatherModel!.main?.feelsLike}°C',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 60.0),
+
+                // Add more details if needed
+
+                // Add Card widget with text and button
+                Card(
+                  margin: EdgeInsets.all(16.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          'keep your environment alive',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 10.0),
+                        Text(
+                          currentTip,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        SizedBox(height: 10.0),
+                        ElevatedButton(
+                          onPressed: () {
+                            showRandomTip();
+                            // Add button action here
+                          },
+                          child: Text('Your tip!'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+        ],
+      ),
     );
+  }
+
+  void _searchTemperature(String city) async {
+    try {
+      final WeatherModel result = await Repo().getWeather(city);
+      // defaultCity = city;
+      setState(() {
+        weatherModel = result;
+        MyApp.defaultCity = city; // Set the searched city as the default one
+      });
+    } catch (e) {
+      // Handle error, e.g., show a snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error fetching weather data for $city'),
+        ),
+      );
+    }
   }
 }

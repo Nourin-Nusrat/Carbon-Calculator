@@ -56,7 +56,7 @@ class _ElectricityScreenState extends State<ElectricityScreen> {
             ElevatedButton(
               onPressed: () {
                 double usage = double.tryParse(usageController.text) ?? 0;
-                double result = usage * 0.2; // Modify the calculation here
+                double result = usage * 0.3712; // Modify the calculation here
                 widget.updateValue(result);
                 setState(() {
                   calculatedResult = result;

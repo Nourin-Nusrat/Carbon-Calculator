@@ -37,7 +37,7 @@ class _WaterScreenState extends State<WaterScreen> {
               ),
             ),
             SizedBox(height: 16),
-            Text('Enter Water Usage (gallons):'),
+            Text('Enter Water Usage (litre):'),
             SizedBox(height: 16),
             Row(
               children: [
@@ -56,7 +56,7 @@ class _WaterScreenState extends State<WaterScreen> {
             ElevatedButton(
               onPressed: () {
                 double usage = double.tryParse(usageController.text) ?? 0;
-                double result = usage * 0.01; // Modify the calculation here
+                double result = usage * 0.2; // Modify the calculation here
                 widget.updateValue(result);
                 setState(() {
                   calculatedResult = result;

@@ -99,7 +99,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Challenges'),
+        title: Text('Take Your Challenges'),
       ),
       body: SingleChildScrollView(
         child: Padding(

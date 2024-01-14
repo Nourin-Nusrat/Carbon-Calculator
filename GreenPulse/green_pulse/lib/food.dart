@@ -62,7 +62,7 @@ class _FoodScreenState extends State<FoodScreen> {
           SizedBox(height: 16),
           Row(
             children: [
-              Text('Enter Food Consumption (grams per day):'),
+              Text('Meat (grams per day):'),
               SizedBox(width: 16),
               Expanded(
                 child: TextField(
@@ -80,7 +80,7 @@ class _FoodScreenState extends State<FoodScreen> {
             onPressed: () {
               double foodConsumption =
                   double.tryParse(foodConsumptionController.text) ?? 0;
-              double result = foodConsumption * 0.002; // Adjust the multiplier as needed
+              double result = foodConsumption * 0.0122; // Adjust the multiplier as needed
               widget.updateValue(result);
               setState(() {
                 calculatedResult = result;

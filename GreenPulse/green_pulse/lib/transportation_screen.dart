@@ -123,7 +123,7 @@ class _TransportationScreenState extends State<TransportationScreen> {
               children: [
                 Row(
                   children: [
-                    Text('Distance (miles):'),
+                    Text('Distance (Km):'),
                     SizedBox(width: 1),
                     Expanded(
                       child: TextField(
@@ -138,7 +138,7 @@ class _TransportationScreenState extends State<TransportationScreen> {
                     ElevatedButton(
                       onPressed: () {
                         double distance = double.tryParse(distanceController.text) ?? 0;
-                        double result = distance * 0.01;
+                        double result = distance * 0.0227;
                         widget.updateValue(result);
                         setState(() {
                           calculatedResult = result;
@@ -159,7 +159,7 @@ class _TransportationScreenState extends State<TransportationScreen> {
               children: [
                 Row(
                   children: [
-                    Text('Distance (miles):'),
+                    Text('Distance (Km):'),
                     SizedBox(width: 16),
                     Expanded(
                       child: TextField(
@@ -174,7 +174,7 @@ class _TransportationScreenState extends State<TransportationScreen> {
                     ElevatedButton(
                       onPressed: () {
                         double distance = double.tryParse(distanceController.text) ?? 0;
-                        double result = distance * 0.01;
+                        double result = distance * 0.04;
                         widget.updateValue(result);
                         setState(() {
                           calculatedResult = result;
@@ -196,7 +196,43 @@ class _TransportationScreenState extends State<TransportationScreen> {
               children: [
                 Row(
                   children: [
-                    Text('Distance (miles):'),
+                    Text('Distance (Km):'),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: distanceController,
+                        decoration: InputDecoration(
+                          hintText: 'Distance',
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 1), // Add some spacing
+                    ElevatedButton(
+                      onPressed: () {
+                        double distance = double.tryParse(distanceController.text) ?? 0;
+                        double result = distance * 0.02;
+                        widget.updateValue(result);
+                        setState(() {
+                          calculatedResult = result;
+                        });
+                      },
+                      child: Text('Calculate'),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 1),
+                if (calculatedResult != -1.0)
+                  Text('Result: $calculatedResult!'),
+              ],
+            ),
+            if (mode == 'Motorbike')
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text('Distance (Km):'),
                     SizedBox(width: 16),
                     Expanded(
                       child: TextField(
@@ -226,6 +262,43 @@ class _TransportationScreenState extends State<TransportationScreen> {
                   Text('Result: $calculatedResult!'),
               ],
             ),
+            if (mode == 'Plane')
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text('Distance (Km):'),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: distanceController,
+                        decoration: InputDecoration(
+                          hintText: 'Distance',
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 1), // Add some spacing
+                    ElevatedButton(
+                      onPressed: () {
+                        double distance = double.tryParse(distanceController.text) ?? 0;
+                        double result = distance * 0.1;
+                        widget.updateValue(result);
+                        setState(() {
+                          calculatedResult = result;
+                        });
+                      },
+                      child: Text('Calculate'),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 1),
+                if (calculatedResult != -1.0)
+                  Text('Result: $calculatedResult!'),
+              ],
+            ),
+            
         ],
       ),
     );
