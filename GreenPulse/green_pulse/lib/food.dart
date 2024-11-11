@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class FoodScreen extends StatefulWidget {
   final void Function(double) updateValue;
 
-  FoodScreen(this.updateValue);
+  const FoodScreen(this.updateValue, {super.key});
 
   @override
   _FoodScreenState createState() => _FoodScreenState();
@@ -18,8 +18,8 @@ class _FoodScreenState extends State<FoodScreen> {
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height * 0.8,
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
@@ -29,14 +29,14 @@ class _FoodScreenState extends State<FoodScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Food Consumption Calculator',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _buildInputFields(),
           ],
         ),
@@ -48,34 +48,34 @@ class _FoodScreenState extends State<FoodScreen> {
     foodConsumptionController.clear(); // Clear the food consumption input
 
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Food Consumption Calculator',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Row(
             children: [
-              Text('Meat (grams per day):'),
-              SizedBox(width: 16),
+              const Text('Meat (grams per day):'),
+              const SizedBox(width: 16),
               Expanded(
                 child: TextField(
                   keyboardType: TextInputType.number,
                   controller: foodConsumptionController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Food Consumption',
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
               double foodConsumption =
@@ -86,9 +86,9 @@ class _FoodScreenState extends State<FoodScreen> {
                 calculatedResult = result;
               });
             },
-            child: Text('Calculate'),
+            child: const Text('Calculate'),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           if (calculatedResult != -1.0)
             Text('Result: $calculatedResult!'),
         ],

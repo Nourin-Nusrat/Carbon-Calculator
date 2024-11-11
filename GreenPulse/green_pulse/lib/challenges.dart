@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChallengesPage extends StatefulWidget {
+  const ChallengesPage({super.key});
+
   @override
   _ChallengesPageState createState() => _ChallengesPageState();
 }
@@ -68,14 +70,14 @@ class _ChallengesPageState extends State<ChallengesPage> {
           ),
           title: Text(
             challenge,
-            style: TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
           ),
           trailing: isCompleted
-              ? Icon(
+              ? const Icon(
                   Icons.check_circle,
                   color: Colors.green,
                 )
-              : Icon(
+              : const Icon(
                   Icons.radio_button_unchecked,
                   color: Colors.grey,
                 ),
@@ -99,7 +101,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Take Your Challenges'),
+        title: const Text('Take Your Challenges'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -109,28 +111,28 @@ class _ChallengesPageState extends State<ChallengesPage> {
               // Display the current score.
               Text(
                 'Score: ${score.toStringAsFixed(2)}',
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
-              SizedBox(height: 16.0),
-              Text("Try to save the planet by planting or watering trees."),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 16.0),
+              const Text("Try to save the planet by planting or watering trees."),
+              const SizedBox(height: 8.0),
               _buildChallengeCard('Plant a Tree', 'tree.png'),
-              SizedBox(height: 8.0),
-              Text("Try to save at least 1 glass of water"),
+              const SizedBox(height: 8.0),
+              const Text("Try to save at least 1 glass of water"),
               _buildChallengeCard('Conserve Water', 'water.png'),
-              SizedBox(height: 8.0),
-              Text("Try to eat vegetables in at least 1 meal"),
+              const SizedBox(height: 8.0),
+              const Text("Try to eat vegetables in at least 1 meal"),
               _buildChallengeCard('Reduce Food Waste', 'food.png'),
-              SizedBox(height: 8.0),
-              Text("Try to avoid smoking"),
+              const SizedBox(height: 8.0),
+              const Text("Try to avoid smoking"),
               _buildChallengeCard('Improve Air Quality', 'air.png'),
-              SizedBox(height: 8.0),
-              Text("Try to use solar for at least 1 hour in a day"),
+              const SizedBox(height: 8.0),
+              const Text("Try to use solar for at least 1 hour in a day"),
               _buildChallengeCard('Use Solar Energy', 'solar.png'),
-              SizedBox(height: 8.0),
-              Text("Try to walk at least one time in a day"),
+              const SizedBox(height: 8.0),
+              const Text("Try to walk at least one time in a day"),
               _buildChallengeCard('Walk or Bike', 'walk.png'),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () async {
                   if (lastUpdate != DateTime.now().toLocal().toString().split(' ')[0]) {
@@ -143,14 +145,14 @@ class _ChallengesPageState extends State<ChallengesPage> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text('Daily Update'),
+                          title: const Text('Daily Update'),
                           content: Text('You have completed ${dailyPercentage.toStringAsFixed(2)}% of the challenges today.'),
                           actions: [
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text('Close'),
+                              child: const Text('Close'),
                             ),
                           ],
                         );
@@ -161,14 +163,14 @@ class _ChallengesPageState extends State<ChallengesPage> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text('Daily Update'),
-                          content: Text('You have already updated your score today.'),
+                          title: const Text('Daily Update'),
+                          content: const Text('You have already updated your score today.'),
                           actions: [
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text('Close'),
+                              child: const Text('Close'),
                             ),
                           ],
                         );
@@ -176,7 +178,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
                     );
                   }
                 },
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             ],
           ),

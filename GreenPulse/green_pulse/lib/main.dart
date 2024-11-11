@@ -19,26 +19,28 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  static late String defaultCity = 'Rajshahi';
+  static String defaultCity = 'Rajshahi';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'GREEN PULSE',
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 46, 95, 18)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 46, 95, 18)),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(title: 'Green Pulse'),
       routes: {
-        '/eco_tips': (context) => TermsOfUsePage(),
-        '/faq': (context) => FAQPage(),
-        '/carbon_calculator': (context) => CarbonCalculatorPage(),
-        '/challenges': (context) => ChallengesPage(),
-        '/news_feed': (context) => NewsFeedPage(),
-        '/feedback' : (context) => feedback(),// Add the route for the News Feed page
+        '/eco_tips': (context) => const TermsOfUsePage(),
+        '/faq': (context) => const FAQPage(),
+        '/carbon_calculator': (context) => const CarbonCalculatorPage(),
+        '/challenges': (context) => const ChallengesPage(),
+        '/news_feed': (context) => const NewsFeedPage(),
+        '/feedback': (context) =>
+            const feedback(), // Add the route for the News Feed page
+        // '/location' : (context) => const LocationScreen(),
       },
     );
   }
@@ -56,9 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    MyHomePageContent(),
-    ChallengesPage(),
-    CarbonCalculatorPage(),
+    const MyHomePageContent(),
+    const ChallengesPage(),
+    const CarbonCalculatorPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -76,45 +78,46 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           // Add an icon button to navigate to the News Feed page
           IconButton(
-            icon: Icon(Icons.article),
+            icon: const Icon(Icons.article),
             onPressed: () {
               Navigator.pushNamed(context, '/news_feed');
             },
           ),
+          const Text('News'),
         ],
       ),
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             Container(
-              color: Color.fromARGB(255, 218, 131, 74).withOpacity(0.8),
+              color: const Color.fromARGB(255, 218, 131, 74).withOpacity(0.8),
               height: 60,
               alignment: Alignment.center,
-              child: Text(
+              child: const Text(
                 'Green Pulse',
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
             ListTile(
-              leading: Icon(Icons.security),
-              title: Text('Terms of Use'),
+              leading: const Icon(Icons.security),
+              title: const Text('Terms of Use'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/eco_tips');
               },
             ),
             ListTile(
-              leading: Icon(Icons.help),
-              title: Text('FAQ'),
+              leading: const Icon(Icons.help),
+              title: const Text('FAQ'),
               onTap: () {
                 Navigator.pushNamed(context, '/faq');
               },
             ),
             ListTile(
-              leading: Icon(Icons.chat_bubble),
-              title: Text('Feedback & Support'),
+              leading: const Icon(Icons.chat_bubble),
+              title: const Text('Feedback & Support'),
               onTap: () {
                 Navigator.pushNamed(context, '/feedback');
                 // Handle new item 1 navigation
@@ -122,8 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             // ListTile(
             //   leading: Icon(Icons.settings),
-            //   title: Text('New Item 2'),
+            //   title: Text('location'),
             //   onTap: () {
+            //     Navigator.pushNamed(context, '/location');
             //     // Handle new item 2 navigation
             //   },
             // ),
@@ -156,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calculate),
-            label: 'Calculator',
+            label: 'Carbon Tracker',
           ),
         ],
         currentIndex: _selectedIndex,
@@ -180,12 +184,14 @@ class _MyHomePageState extends State<MyHomePage> {
 // Import your actual weather model file
 
 class MyHomePageContent extends StatefulWidget {
+  const MyHomePageContent({super.key});
+
   @override
   _MyHomePageContentState createState() => _MyHomePageContentState();
 }
 
 class _MyHomePageContentState extends State<MyHomePageContent> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   WeatherModel? weatherModel;
   // late String defaultCity = 'Rajshahi'; // Default city set to Rajshahi
 
@@ -226,7 +232,7 @@ class _MyHomePageContentState extends State<MyHomePageContent> {
             padding: const EdgeInsets.all(5.0),
             child: TextField(
               controller: _searchController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Search city...',
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.green),
@@ -242,70 +248,72 @@ class _MyHomePageContentState extends State<MyHomePageContent> {
               // Trigger temperature search when the button is pressed
               _searchTemperature(_searchController.text);
             },
-            child: Text('Search'),
+            child: const Text('Search'),
           ),
           if (weatherModel != null)
             Column(
               children: [
-                SizedBox(height: 30.0),
+                const SizedBox(height: 30.0),
                 Text(
                   '${weatherModel!.main?.temp}°C',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 40.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 5.0),
+                const SizedBox(height: 5.0),
                 Text(
                   '${weatherModel!.name}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14.0,
                   ),
                 ),
-                SizedBox(height: 5.0),
+                const SizedBox(height: 5.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'Feels like ${weatherModel!.main?.feelsLike}°C',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14.0,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 60.0),
+                const SizedBox(height: 60.0),
 
                 // Add more details if needed
 
                 // Add Card widget with text and button
                 Card(
-                  margin: EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.all(16.0),
+                  elevation: 0,
+                  color: Color.fromRGBO(237, 238, 234, 0.4),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                        Text(
+                        const Text(
                           'keep your environment alive',
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 10.0),
+                        const SizedBox(height: 10.0),
                         Text(
                           currentTip,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14.0,
                           ),
                         ),
-                        SizedBox(height: 10.0),
+                        const SizedBox(height: 10.0),
                         ElevatedButton(
                           onPressed: () {
                             showRandomTip();
                             // Add button action here
                           },
-                          child: Text('Your tip!'),
+                          child: const Text('Your tip!'),
                         ),
                       ],
                     ),

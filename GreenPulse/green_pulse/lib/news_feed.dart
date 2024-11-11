@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
 class NewsFeedPage extends StatefulWidget {
+  const NewsFeedPage({super.key});
+
   @override
   _NewsFeedPageState createState() => _NewsFeedPageState();
 }
@@ -11,7 +13,7 @@ class NewsFeedPage extends StatefulWidget {
 class _NewsFeedPageState extends State<NewsFeedPage> {
   List<dynamic> articles = [];
   int currentPage = 1;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -27,7 +29,8 @@ class _NewsFeedPageState extends State<NewsFeedPage> {
   }
 
   void _scrollListener() {
-    if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
       // Reached the bottom of the list, load more data.
       currentPage++;
@@ -36,7 +39,8 @@ class _NewsFeedPageState extends State<NewsFeedPage> {
   }
 
   Future<void> _loadNews() async {
-    final apiKey = '1e0a82c1-0ac2-4e7c-9b1d-cc412ac1ee4a'; // Replace with your Guardian API key
+    const apiKey =
+        '1e0a82c1-0ac2-4e7c-9b1d-cc412ac1ee4a'; // Replace with your Guardian API key
     final apiUrl =
         'https://content.guardianapis.com/environment?page=$currentPage&api-key=$apiKey';
 
@@ -69,35 +73,49 @@ class _NewsFeedPageState extends State<NewsFeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('News Feed'),
-        backgroundColor: Color.fromARGB(255, 108, 172, 72),
+        title: const Text('News Feed'),
+        backgroundColor: Color.fromARGB(255, 160, 202, 195),
       ),
-      body: Container(
-        color: Colors.grey[200],
-        child: ListView.builder(
-          controller: _scrollController,
-          itemCount: articles.length,
-          itemBuilder: (context, index) {
-            final article = articles[index];
-            return GestureDetector(
-              onTap: () {
-                // Open the URL when the ListTile is tapped
-                _launchURL(article['webUrl']);
-              },
-              child: Card(
-                margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                elevation: 4.0,
-                child: ListTile(
-                  title: Text(
-                    article['webTitle'],
-                    style: TextStyle(fontWeight: FontWeight.bold),
+      body: Stack(
+        children: [
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/sea.jpg', // Replace with your image path
+              fit: BoxFit.cover,
+            ),
+          ),
+          // ListView.builder above the background image
+          Container(
+            color: Colors.transparent, // Make the container transparent
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: articles.length,
+              itemBuilder: (context, index) {
+                final article = articles[index];
+                return GestureDetector(
+                  onTap: () {
+                    // Open the URL when the ListTile is tapped
+                    _launchURL(article['webUrl']);
+                  },
+                  child: Card(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 16.0),
+                    elevation: 4.0,
+                    color: Color.fromRGBO(255, 255, 255, 0.7),
+                    child: ListTile(
+                      title: Text(
+                        article['webTitle'],
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(article['webPublicationDate']),
+                    ),
                   ),
-                  subtitle: Text(article['webPublicationDate']),
-                ),
-              ),
-            );
-          },
-        ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

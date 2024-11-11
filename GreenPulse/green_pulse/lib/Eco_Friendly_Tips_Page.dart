@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class TermsOfUsePage extends StatelessWidget {
+  const TermsOfUsePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Terms of Use'),
+        title: const Text('Terms of Use'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

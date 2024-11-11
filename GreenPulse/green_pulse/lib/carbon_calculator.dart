@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'transportation_screen.dart';
 import 'food.dart';
 import 'water.dart';
@@ -11,6 +10,8 @@ import 'history_Page.dart';
 import 'file_manager.dart';
 
 class CarbonCalculatorPage extends StatefulWidget {
+  const CarbonCalculatorPage({super.key});
+
   @override
   _CarbonCalculatorPageState createState() => _CarbonCalculatorPageState();
 }
@@ -83,8 +84,8 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
 
   void _calculateTotalEmissions() async {
     double totalEmissions = transportationValue + foodValue + electricityValue + waterValue;
-    String indexDateandTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
-    // String indexDateandTime = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    // String indexDateandTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+    String indexDateandTime = DateFormat('yyyy-MM-dd').format(DateTime.now());
     // String dateAndTime = DateFormat.yMd().add_jm().format(DateTime.now());
     String dateAndTime = DateFormat('MM-dd').format(DateTime.now());
     final entry = HistoryData(
@@ -103,9 +104,9 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Carbon Calculator'),
+        title: const Text('Carbon Calculator'),
         centerTitle: true,
-        titleTextStyle: TextStyle(
+        titleTextStyle: const TextStyle(
           color: Color.fromARGB(255, 4, 27, 6),
           fontSize: 24,
           fontWeight: FontWeight.bold,
@@ -121,7 +122,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
                   foodValue +
                   electricityValue +
                   waterValue,
-              color: Color.fromARGB(255, 168, 68, 9),
+              color: const Color.fromARGB(255, 168, 68, 9),
               isTotal: true,
             ),
             _buildCard(
@@ -131,7 +132,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
               onTap: () {
                 _showTransportationCalculator(context);
               },
-              color: Color.fromARGB(255, 56, 90, 2),
+              color: const Color.fromARGB(255, 56, 90, 2),
             ),
             _buildCard(
               title: 'Food',
@@ -140,7 +141,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
               onTap: () {
                 _showFoodCalculator(context);
               },
-              color: Color.fromARGB(255, 56, 90, 2),
+              color: const Color.fromARGB(255, 56, 90, 2),
             ),
             _buildCard(
               title: 'Electricity',
@@ -149,7 +150,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
               onTap: () {
                 _showElectricityCalculator(context);
               },
-              color: Color.fromARGB(255, 56, 90, 2),
+              color: const Color.fromARGB(255, 56, 90, 2),
             ),
             _buildCard(
               title: 'Water',
@@ -158,7 +159,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
               onTap: () {
                 _showWaterCalculator(context);
               },
-              color: Color.fromARGB(255, 56, 90, 2),
+              color: const Color.fromARGB(255, 56, 90, 2),
             ),
           ],
         ),
@@ -171,16 +172,16 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
               onPressed: () {
                 // Navigate to the history page
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => HistoryPage(),
+                  builder: (context) => const HistoryPage(),
                 ));
               },
-              child: Text('View History'),
+              child: const Text('View History'),
             ),
             ElevatedButton(
               onPressed: () {
                 _calculateTotalEmissions();
               },
-              child: Text('Save Data'),
+              child: const Text('Save Data'),
             ),
           ],
         ),
@@ -200,7 +201,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
         ? Container(
             height: 200,
             width: 200,
-            margin: EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: RadialGradient(
@@ -209,10 +210,10 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Color.fromARGB(255, 121, 122, 120).withOpacity(0.5),
+                  color: const Color.fromARGB(255, 121, 122, 120).withOpacity(0.5),
                   spreadRadius: 5,
                   blurRadius: 7,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
@@ -220,7 +221,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Total Carbon(kgCO2e) ',
                     style: TextStyle(
                       color: Colors.white,
@@ -228,11 +229,11 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                     // '$value',
                     ' ${value.toStringAsFixed(2)}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                     ),
@@ -254,11 +255,11 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 2,
                   blurRadius: 3,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
-            margin: EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
             child: Card(
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -267,7 +268,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
               child: ListTile(
                 title: Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color.fromARGB(255, 42, 80, 6),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -275,7 +276,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
                 ),
                 subtitle: Text(
                   subtitle,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color.fromARGB(255, 114, 52, 23),
                     fontSize: 13,
                   ),
@@ -283,7 +284,7 @@ class _CarbonCalculatorPageState extends State<CarbonCalculatorPage> {
                 trailing: Text(
                   // ' $value',
                   ' ${value.toStringAsFixed(2)}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 22,
                   ),

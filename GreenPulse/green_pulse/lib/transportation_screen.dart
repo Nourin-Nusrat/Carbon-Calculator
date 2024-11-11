@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TransportationScreen extends StatefulWidget {
   final void Function(double) updateValue;
 
-  TransportationScreen(this.updateValue);
+  const TransportationScreen(this.updateValue, {super.key});
 
   @override
   _TransportationScreenState createState() => _TransportationScreenState();
@@ -28,8 +28,8 @@ class _TransportationScreenState extends State<TransportationScreen> {
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height * 0.8,
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
@@ -39,23 +39,23 @@ class _TransportationScreenState extends State<TransportationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Transportation Calculator',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
-            Text('Choose a mode of transportation:'),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
+            const Text('Choose a mode of transportation:'),
+            const SizedBox(height: 16),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: _buildTransportCards(context),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             if (selectedMode.isNotEmpty) _buildInputFields(selectedMode),
           ],
         ),
@@ -72,11 +72,11 @@ class _TransportationScreenState extends State<TransportationScreen> {
             calculatedResult = -1.0;
           });
         },
-        child: Container(
+        child: SizedBox(
           width: 100,
           child: Card(
             color: mode == selectedMode
-                ? Color.fromARGB(255, 209, 99, 35)
+                ? const Color.fromARGB(255, 209, 99, 35)
                 : Colors.orange.withOpacity(0.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -84,10 +84,10 @@ class _TransportationScreenState extends State<TransportationScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.directions_car, color: Colors.white, size: 36.0),
+                const Icon(Icons.directions_car, color: Colors.white, size: 36.0),
                 Text(
                   mode,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -105,36 +105,36 @@ class _TransportationScreenState extends State<TransportationScreen> {
     distanceController.clear(); // Clear the distance input
     // calculatedResult = -1.0;
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '$mode Transportation Calculator',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           if (mode == 'Car')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    Text('Distance (Km):'),
-                    SizedBox(width: 1),
+                    const Text('Distance (Km):'),
+                    const SizedBox(width: 1),
                     Expanded(
                       child: TextField(
                         keyboardType: TextInputType.number,
                         controller: distanceController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Distance',
                         ),
                       ),
                     ),
-                    SizedBox(width: 16), // Add some spacing
+                    const SizedBox(width: 16), // Add some spacing
                     ElevatedButton(
                       onPressed: () {
                         double distance = double.tryParse(distanceController.text) ?? 0;
@@ -144,11 +144,11 @@ class _TransportationScreenState extends State<TransportationScreen> {
                           calculatedResult = result;
                         });
                       },
-                      child: Text('Calculate'),
+                      child: const Text('Calculate'),
                     ),
                   ],
                 ),
-                SizedBox(height: 1),
+                const SizedBox(height: 1),
                 if (calculatedResult != -1.0)
                   Text('Result: $calculatedResult!'),
               ],
@@ -159,18 +159,18 @@ class _TransportationScreenState extends State<TransportationScreen> {
               children: [
                 Row(
                   children: [
-                    Text('Distance (Km):'),
-                    SizedBox(width: 16),
+                    const Text('Distance (Km):'),
+                    const SizedBox(width: 16),
                     Expanded(
                       child: TextField(
                         keyboardType: TextInputType.number,
                         controller: distanceController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Distance',
                         ),
                       ),
                     ),
-                    SizedBox(width: 1), // Add some spacing
+                    const SizedBox(width: 1), // Add some spacing
                     ElevatedButton(
                       onPressed: () {
                         double distance = double.tryParse(distanceController.text) ?? 0;
@@ -180,11 +180,11 @@ class _TransportationScreenState extends State<TransportationScreen> {
                           calculatedResult = result;
                         });
                       },
-                      child: Text('Calculate'),
+                      child: const Text('Calculate'),
                     ),
                   ],
                 ),
-                SizedBox(height: 1),
+                const SizedBox(height: 1),
                 if (calculatedResult != -1.0)
                   Text('Result: $calculatedResult!'),
               ],
@@ -196,18 +196,18 @@ class _TransportationScreenState extends State<TransportationScreen> {
               children: [
                 Row(
                   children: [
-                    Text('Distance (Km):'),
-                    SizedBox(width: 16),
+                    const Text('Distance (Km):'),
+                    const SizedBox(width: 16),
                     Expanded(
                       child: TextField(
                         keyboardType: TextInputType.number,
                         controller: distanceController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Distance',
                         ),
                       ),
                     ),
-                    SizedBox(width: 1), // Add some spacing
+                    const SizedBox(width: 1), // Add some spacing
                     ElevatedButton(
                       onPressed: () {
                         double distance = double.tryParse(distanceController.text) ?? 0;
@@ -217,11 +217,11 @@ class _TransportationScreenState extends State<TransportationScreen> {
                           calculatedResult = result;
                         });
                       },
-                      child: Text('Calculate'),
+                      child: const Text('Calculate'),
                     ),
                   ],
                 ),
-                SizedBox(height: 1),
+                const SizedBox(height: 1),
                 if (calculatedResult != -1.0)
                   Text('Result: $calculatedResult!'),
               ],
@@ -232,18 +232,18 @@ class _TransportationScreenState extends State<TransportationScreen> {
               children: [
                 Row(
                   children: [
-                    Text('Distance (Km):'),
-                    SizedBox(width: 16),
+                    const Text('Distance (Km):'),
+                    const SizedBox(width: 16),
                     Expanded(
                       child: TextField(
                         keyboardType: TextInputType.number,
                         controller: distanceController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Distance',
                         ),
                       ),
                     ),
-                    SizedBox(width: 1), // Add some spacing
+                    const SizedBox(width: 1), // Add some spacing
                     ElevatedButton(
                       onPressed: () {
                         double distance = double.tryParse(distanceController.text) ?? 0;
@@ -253,11 +253,11 @@ class _TransportationScreenState extends State<TransportationScreen> {
                           calculatedResult = result;
                         });
                       },
-                      child: Text('Calculate'),
+                      child: const Text('Calculate'),
                     ),
                   ],
                 ),
-                SizedBox(height: 1),
+                const SizedBox(height: 1),
                 if (calculatedResult != -1.0)
                   Text('Result: $calculatedResult!'),
               ],
@@ -268,18 +268,18 @@ class _TransportationScreenState extends State<TransportationScreen> {
               children: [
                 Row(
                   children: [
-                    Text('Distance (Km):'),
-                    SizedBox(width: 16),
+                    const Text('Distance (Km):'),
+                    const SizedBox(width: 16),
                     Expanded(
                       child: TextField(
                         keyboardType: TextInputType.number,
                         controller: distanceController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Distance',
                         ),
                       ),
                     ),
-                    SizedBox(width: 1), // Add some spacing
+                    const SizedBox(width: 1), // Add some spacing
                     ElevatedButton(
                       onPressed: () {
                         double distance = double.tryParse(distanceController.text) ?? 0;
@@ -289,11 +289,11 @@ class _TransportationScreenState extends State<TransportationScreen> {
                           calculatedResult = result;
                         });
                       },
-                      child: Text('Calculate'),
+                      child: const Text('Calculate'),
                     ),
                   ],
                 ),
-                SizedBox(height: 1),
+                const SizedBox(height: 1),
                 if (calculatedResult != -1.0)
                   Text('Result: $calculatedResult!'),
               ],

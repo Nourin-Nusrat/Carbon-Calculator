@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 class FAQPage extends StatelessWidget {
+  const FAQPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FAQ'),
-        backgroundColor: Color.fromARGB(255, 107, 150, 51),
+        title: const Text('FAQ'),
+        backgroundColor: const Color.fromARGB(255, 107, 150, 51),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -33,7 +35,7 @@ class FAQItem extends StatelessWidget {
   final String question;
   final String answer;
 
-  FAQItem({
+  const FAQItem({super.key, 
     required this.question,
     required this.answer,
   });
@@ -42,11 +44,11 @@ class FAQItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2.0,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: ExpansionTile(
         title: Text(
           question,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
